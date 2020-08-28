@@ -1,21 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8C589F48-B927-4807-9E23-6BB342B9BE09}</ProjectGuid>
+    <ProjectGuid>{2A6345EA-8828-41A8-A996-6D27D9055F58}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TNoodle</RootNamespace>
-    <AssemblyName>TNoodle</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
+    <RootNamespace>TNoodle.NET</RootNamespace>
+    <AssemblyName>TNoodle.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,8 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,31 +31,42 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Puzzles\AlgorithmBuilder.cs" />
     <Compile Include="Puzzles\ClockPuzzle.cs" />
+    <Compile Include="Puzzles\CubePuzzle.cs" />
     <Compile Include="Puzzles\FourByFourCubePuzzle.cs" />
+    <Compile Include="Puzzles\InvalidMoveException.cs" />
+    <Compile Include="Puzzles\InvalidScrambleException.cs" />
+    <Compile Include="Puzzles\LinkedHashMap.cs" />
     <Compile Include="Puzzles\MegaminxPuzzle.cs" />
     <Compile Include="Puzzles\NoInspectionFiveByFiveCubePuzzle.cs" />
     <Compile Include="Puzzles\NoInspectionFourByFourCubePuzzle.cs" />
     <Compile Include="Puzzles\NoInspectionThreeByThreeCubePuzzle.cs" />
     <Compile Include="Puzzles\Puzzle.cs" />
-    <Compile Include="Puzzles\LinkedHashMap.cs" />
+    <Compile Include="Puzzles\PuzzleStateAndGenerator.cs" />
     <Compile Include="Puzzles\PyraminxPuzzle.cs" />
     <Compile Include="Puzzles\SkewbPuzzle.cs" />
     <Compile Include="Puzzles\SquareOnePuzzle.cs" />
     <Compile Include="Puzzles\ThreeByThreeCubeFewestMovesPuzzle.cs" />
+    <Compile Include="Puzzles\ThreeByThreeCubePuzzle.cs" />
+    <Compile Include="Puzzles\TwoByTwoCubePuzzle.cs" />
     <Compile Include="Solvers\min2phase\CoordCube.cs" />
     <Compile Include="Solvers\min2phase\CubieCube.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Solvers\min2phase\Search.cs" />
     <Compile Include="Solvers\min2phase\Tools.cs" />
     <Compile Include="Solvers\min2phase\Util.cs" />
-    <Compile Include="Puzzles\AlgorithmBuilder.cs" />
-    <Compile Include="Puzzles\InvalidMoveException.cs" />
-    <Compile Include="Puzzles\InvalidScrambleException.cs" />
-    <Compile Include="Puzzles\PuzzleStateAndGenerator.cs" />
-    <Compile Include="Puzzles\CubePuzzle.cs" />
-    <Compile Include="Puzzles\ThreeByThreeCubePuzzle.cs" />
-    <Compile Include="Puzzles\TwoByTwoCubePuzzle.cs" />
     <Compile Include="Solvers\PyraminxSolver.cs" />
     <Compile Include="Solvers\SkewbSolver.cs" />
     <Compile Include="Solvers\sq12phase\FullCube.cs" />
@@ -80,22 +85,9 @@
     <Compile Include="Solvers\threephase\Search.cs" />
     <Compile Include="Solvers\threephase\Util.cs" />
     <Compile Include="Solvers\TwoByTwoSolver.cs" />
-    <Compile Include="Utils\Functions.cs" />
-    <Compile Include="Utils\Assertion.cs" />
     <Compile Include="Utils\ArrayExtension.cs" />
+    <Compile Include="Utils\Assertion.cs" />
+    <Compile Include="Utils\Functions.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="MissingFeatures.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

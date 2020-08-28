@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using TNoodle.Solvers;
 using TNoodle.Utils;
@@ -28,15 +29,21 @@ namespace TNoodle.Puzzles
             [Face.F] = "z"
         };
 
-        //private static Dictionary<string, Color> defaultColorScheme = new HashMap<String, Color>();
-        //    static {
-        //    defaultColorScheme.put("B", Color.BLUE);
-        //    defaultColorScheme.put("D", Color.YELLOW);
-        //    defaultColorScheme.put("F", Color.GREEN);
-        //    defaultColorScheme.put("L", new Color(255, 128, 0)); //orange heraldic tincture
-        //    defaultColorScheme.put("R", Color.RED);
-        //    defaultColorScheme.put("U", Color.WHITE);
-        //}
+        private static Dictionary<string, Color> defaultColorScheme = new Dictionary<string, Color>()
+        {
+            { "B", Color.Blue },
+            { "D", Color.Yellow },
+            { "F", Color.Green },
+            { "L", Color.FromArgb(0, 255, 128, 0)},
+            { "R", Color.Red },
+            { "U", Color.White },
+        };
+
+        public Dictionary<string, Color> getDefaultColorScheme()
+        {
+            return new Dictionary<string, Color>(defaultColorScheme);
+        }
+
 
         private static readonly int[] DefaultLengths = { 0, 0, 25, 25, 40, 60, 80, 100, 120, 140, 160, 180 };
 
@@ -361,6 +368,52 @@ namespace TNoodle.Puzzles
                 new[] {img[(int) Face.D][s][0], img[(int) Face.B][s][s], img[(int) Face.L][s][0]}
             };
         }
+        private void drawCube(Bitmap bitmap, int[,,] state, int gap, int cubieSize, Dictionary<string, Color> colorScheme)
+        {
+            paintCubeFace(bitmap, gap, 2 * gap + Size * cubieSize, Size, cubieSize, (int[,])state.GetValue((int)Face.L), colorScheme);
+            paintCubeFace(bitmap, 2 * gap + Size * cubieSize, 3 * gap + 2 * Size * cubieSize, Size, cubieSize, (int[,])state.GetValue((int)Face.D), colorScheme);
+            paintCubeFace(bitmap, 4 * gap + 3 * Size * cubieSize, 2 * gap + Size * cubieSize, Size, cubieSize, (int[,])state.GetValue((int)Face.B), colorScheme);
+            paintCubeFace(bitmap, 3 * gap + 2 * Size * cubieSize, 2 * gap + Size * cubieSize, Size, cubieSize, (int[,])state.GetValue((int)Face.R), colorScheme);
+            paintCubeFace(bitmap, 2 * gap + Size * cubieSize, gap, Size, cubieSize, (int[,])state.GetValue((int)Face.U), colorScheme);
+            paintCubeFace(bitmap, 2 * gap + Size * cubieSize, 2 * gap + Size * cubieSize, Size, cubieSize, (int[,])state.GetValue((int)Face.F), colorScheme);
+        }
+
+        private void paintCubeFace(Bitmap bitmap, int x, int y, int size, int cubieSize, int[,] faceColors, Dictionary<string, Color> colorScheme)
+        {
+            using (Graphics g = Graphics.FromImage(bitmap))
+            {
+                for (int row = 0; row < size; row++)
+                {
+                    for (int col = 0; col < size; col++)
+                    {
+                        int tempx = x + col * cubieSize;
+                        int tempy = y + row * cubieSize;
+
+                        Rectangle rect = new Rectangle(tempx, tempy, cubieSize, cubieSize);
+                        var fillColor = faceColors[row, col];
+                        var faceValue = (string)Enum.GetValues(typeof(Face)).GetValue(fillColor);
+
+                        g.FillRectangle(new SolidBrush(colorScheme[faceValue]), tempx, tempy, cubieSize, cubieSize);
+                    }
+                }
+
+                g.DrawImage(bitmap, 0, 0);
+            }
+        }
+
+        private static int getCubeViewWidth(int cubie, int gap, int size)
+        {
+            return (size * cubie + gap) * 4 + gap;
+        }
+        private static int getCubeViewHeight(int cubie, int gap, int size)
+        {
+            return (size * cubie + gap) * 3 + gap;
+        }
+
+        private static Point getImageSize(int gap, int unitSize, int size)
+        {
+            return new Point(getCubeViewWidth(unitSize, gap, size), getCubeViewHeight(unitSize, gap, size));
+        }
 
         public class CubeMove
         {
@@ -588,21 +641,7 @@ namespace TNoodle.Puzzles
                 return _image.DeepHashCode();
             }
 
-            //private void paintCubeFace(Bitmap g, int x, int y, int size, int cubieSize, int[][] faceColors, HashMap<String, Color> colorScheme)
-            //{
-            //    for (int row = 0; row < size; row++)
-            //    {
-            //        for (int col = 0; col < size; col++)
-            //        {
-            //            int tempx = x + col * cubieSize;
-            //            int tempy = y + row * cubieSize;
-            //            Rectangle rect = new Rectangle(tempx, tempy, cubieSize, cubieSize);
-            //            rect.setFill(colorScheme.get(Face.values()[faceColors[row][col]].toString()));
-            //            rect.setStroke(Color.BLACK);
-            //            g.appendChild(rect);
-            //        }
-            //    }
-            //}
+           
         }
 
         #endregion

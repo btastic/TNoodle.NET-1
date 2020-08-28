@@ -156,7 +156,7 @@ namespace TNoodle.Solvers.Min2phase
             Fact[0] = 1;
             for (int i = 0; i < 12; i++)
             {
-                Cnk[i][0] = 1;
+                Cnk[i][0] =  1;
                 Cnk[i][i] = 1;
                 Fact[i + 1] = Fact[i] * (i + 1);
                 for (int j = 1; j < i; j++)
